@@ -237,7 +237,7 @@ graph LR
 *Figure 4.4: Prometheus scraping targets (port 9090) verifying healthy `UP` state across `api`, `evidently`, and `prometheus`.*
 
 ![Prometheus Metrics](evidences/06_prometheus_metrics.png)
-*Figure 4.5: Prometheus time-series query tracking `model_predictions_total` with 247 production inferences recorded.*
+*Figure 4.5: Prometheus time-series query tracking `model_predictions_total` with 220 production inferences recorded.*
 
 #### MinIO S3 Object Storage & Grafana Dashboards
 - Pre-provisioned dashboards loaded automatically on startup:
@@ -300,6 +300,7 @@ pytest tests/ -v
 ```bash
 python scripts/run_experiments.py
 ```
+> On Windows, set `PYTHONUTF8=1` first (MLflow prints emoji the default console encoding can't handle).
 
 ### 3. Launch Full Docker Stack
 ```bash
@@ -323,7 +324,7 @@ docker compose ps
 - **Prometheus UI:** [http://localhost:9090](http://localhost:9090)
 - **Grafana Dashboards:** [http://localhost:3000](http://localhost:3000) *(User: `admin`, Password: `admin`)*
 - **MinIO Console:** [http://localhost:9001](http://localhost:9001) *(User: `minioadmin`, Password: `miniopassword`)*
-- **Airflow Webserver:** [http://localhost:8080](http://localhost:8080)
+- **Airflow Webserver:** [http://localhost:8080](http://localhost:8080) *(User: `admin`, Password: `admin`)*
 
 ---
 
@@ -338,11 +339,12 @@ All live service components have been rigorously verified and captured in the [`
 | 3 | [`03_mlflow_experiments.png`](#3-mlflow-experiment-tracking-runs-table) | **MLflow Tracking Server** (`:5050`) | Complete 10-model experiment matrix logged with metrics |
 | 4 | [`04_mlflow_model_registry.png`](#4-mlflow-model-registry--stage-promotion) | **MLflow Model Registry** | `wine_quality_model` versions and champion `@production` promotion |
 | 5 | [`05_prometheus_targets.png`](#5-prometheus-scraping-targets) | **Prometheus Targets** (`:9090`) | All 3 service targets healthy in `UP` 1/1 state |
-| 6 | [`06_prometheus_metrics.png`](#6-prometheus-live-production-metrics) | **Prometheus Live Metrics** | `model_predictions_total` with 247 real production inferences |
+| 6 | [`06_prometheus_metrics.png`](#6-prometheus-live-production-metrics) | **Prometheus Live Metrics** | `model_predictions_total` with 220 real production inferences |
 | 7 | [`07_evidently_drift_report.png`](#7-evidently-ai-interactive-drift-report) | **Evidently HTML Report** | Statistical dataset drift detected via Wasserstein distance |
 | 8 | [`08_minio_console.png`](#8-minio-high-performance-s3-storage-console) | **MinIO S3 Object Storage** (`:9001`) | S3 artifact buckets for MLflow models and pipelines |
 | 9 | [`09_grafana_ui.png`](#9-grafana-observability-portal) | **Grafana Dashboards** (`:3000`) | Observability portal for service latency and throughput |
 | 10 | [`10_confusion_matrix.png`](#10-pipeline-model-evaluation-confusion-matrix) | **Model Evaluation Artifact** | Test set confusion matrix plot generated during pipeline evaluation |
+| 11 | [`11_airflow_dag_run.png`](#11-airflow-dag-run) | **Airflow Orchestrator** (`:8080`) | `wine_quality_mlops_pipeline` run with all 6 tasks successful |
 
 ---
 
@@ -403,4 +405,10 @@ Visualization portal for monitoring API latency, prediction volume, error rates,
 ### 10. Pipeline Model Evaluation Confusion Matrix
 Confusion matrix visual artifact automatically computed and stored during the model evaluation pipeline step.
 ![Confusion Matrix](evidences/10_confusion_matrix.png)
+
+---
+
+### 11. Airflow DAG Run
+Graph view of a `wine_quality_mlops_pipeline` run: ingest, validate, preprocess, train, gate & promote, and drift-baseline sync all completed successfully.
+![Airflow DAG Run](evidences/11_airflow_dag_run.png)
 

@@ -48,3 +48,4 @@ mlruns/
 mlartifacts/
 evidently_service/reports/*.html
 evidently_service/reports/*.json
+data/processed/20*/

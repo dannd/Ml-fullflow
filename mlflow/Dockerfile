@@ -20,4 +20,5 @@ CMD ["mlflow", "server", \
      "--backend-store-uri", "postgresql://mlops:mlopspassword@postgres:5432/mlflow", \
      "--default-artifact-root", "s3://mlflow-artifacts", \
      "--host", "0.0.0.0", \
-     "--port", "5000"]
+     "--port", "5000", \
+     "--allowed-hosts", "mlflow,mlflow:5000,localhost,localhost:*,127.0.0.1:*"]

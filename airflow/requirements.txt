@@ -7,3 +7,5 @@ requests>=2.31.0
 psycopg2-binary>=2.9.6
 boto3>=1.28.0
 matplotlib>=3.7.0
+# mlflow pulls a newer cryptography than the pyOpenSSL bundled with Airflow supports
+pyOpenSSL>=25.0.0

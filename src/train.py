@@ -103,7 +103,9 @@ def train_and_track_experiment(
         mlflow.sklearn.log_model(
             sk_model=model,
             artifact_path="model",
-            signature=signature
+            signature=signature,
+            # Newer MLflow defaults to skops, which rejects tree-based estimators
+            serialization_format="cloudpickle"
         )
 
         if register_model_name:
